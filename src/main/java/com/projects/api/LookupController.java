@@ -1,0 +1,1 @@
+package com.projects.api;import org.springframework.stereotype.Controller;import org.springframework.web.bind.annotation.RequestMapping;/** * Created by Adeola.Ojo */@Controller@RequestMapping("/autopay")public class LookupController {    @RequestMapping("/landingpage")    public String landingPage(){        return "bank_information";    }}

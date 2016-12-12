@@ -3,8 +3,10 @@ package com.projects;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projects.config.AppConfig;
+import com.projects.data.DaoFactory;
 import com.projects.data.dao.AutoPayBankProcessorDao;
 import com.projects.data.dto.BankProcessor;
+import com.projects.util.security.Hash;
 import io.advantageous.boon.core.Sys;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
@@ -26,6 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +59,12 @@ public class App implements ApplicationContextAware {
      * start Processor
      */
     private static void startProcessor() {
+        String data;
+        try {
+            data = Hash.getMD5Hash("password");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         logger.debug("houston.. booting...");
         VertxOptions vertxOptions = new VertxOptions();
         vertxOptions.setMetricsOptions(new DropwizardMetricsOptions().setEnabled(true))
@@ -80,24 +89,13 @@ public class App implements ApplicationContextAware {
 
         AppConfig appConfig = (AppConfig) context.getBean("appConfig");
         RestTemplate pingPongTemplate = (RestTemplate) context.getBean("pingPongTemplate");
-        vertx.setPeriodic(1, id -> {
+        vertx.setPeriodic(2000, id -> {
             restTemplateRunnner.executeBlocking(future -> {
-                String response = pingPongTemplate.getForObject(String.format("http://localhost:%s/api/v1/counter",appConfig.hostPort), String.class);
+                String response = pingPongTemplate.getForObject(String.format("http://localhost:%s/api/v1/counter", appConfig.hostPort), String.class);
                 future.complete(response);
             }, res -> {
                 httpRequestCounter++;
                 logger.debug("[ " + httpRequestCounter + " ]" + "Rest response data: " + res.result());
-            });
-        });
-
-        vertx.setPeriodic(2000, id -> {
-            counter++;
-            monitorExecutor.executeBlocking(future -> {
-                JsonObject metrics = metricsService.getMetricsSnapshot(vertx);
-                AutoPayBankProcessorDao processorDao = (AutoPayBankProcessorDao) context.getBean("bank-processor-dao");
-                JsonObject result = metrics.getJsonObject(String.format("vertx.http.servers.%s:$s.requests", appConfig.hostIp, appConfig.hostPort));
-            }, res -> {
-
             });
         });
 
@@ -140,16 +138,17 @@ public class App implements ApplicationContextAware {
             }
 
             ObjectMapper mapper = new ObjectMapper();
-            AutoPayBankProcessorDao processorDao = (AutoPayBankProcessorDao) App.context.getBean("bank-processor-dao");
-            List<BankProcessor> bankProcessors = processorDao.fetchAll();
+            DaoFactory daoFactory = (DaoFactory) App.context.getBean("daoFactory");
+            List<BankProcessor> bankProcessors = daoFactory.autoPayBankProcessorDao.fetchAll();
             if (bankProcessors != null) {
                 for (BankProcessor processor : bankProcessors) {
-                    logger.debug(String.format("found [bank : %s]", processor.getDescription()));
+                    logger.debug(String.format("found [bank : %s @ %s]", processor.getProcessorDescription(), processor.getCbnCode()));
                 }
             }
 
+            BankProcessor processor = daoFactory.autoPayBankProcessorDao.fetchById(4);
             try {
-                String returnJson = mapper.writeValueAsString(bankProcessors);
+                String returnJson = mapper.writeValueAsString(processor);
                 response.end(returnJson);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();

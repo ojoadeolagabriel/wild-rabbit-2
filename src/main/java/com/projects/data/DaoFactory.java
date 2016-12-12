@@ -1,0 +1,1 @@
+package com.projects.data;import com.projects.data.dao.AutoPayBankProcessorDao;import org.springframework.stereotype.Component;import javax.inject.Inject;/** * Created by Adeola.Ojo */@Componentpublic class DaoFactory {    @Inject    public AutoPayBankProcessorDao autoPayBankProcessorDao;}
