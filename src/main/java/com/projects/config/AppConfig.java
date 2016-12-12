@@ -1,0 +1,1 @@
+package com.projects.config;import org.springframework.beans.factory.annotation.Value;import org.springframework.context.annotation.Configuration;/** * Created by Adeola.Ojo */@Configuration("appConfig")public class AppConfig {    @Value("${api.lookup.host}")    public String hostIp;    @Value("${api.lookup.port}")    public Integer hostPort;}

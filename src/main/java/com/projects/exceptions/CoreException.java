@@ -1,0 +1,1 @@
+package com.projects.exceptions;/** * Created by Adeola.Ojo */public class CoreException extends Exception {}

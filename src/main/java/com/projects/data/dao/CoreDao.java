@@ -1,0 +1,1 @@
+package com.projects.data.dao;import org.springframework.jdbc.core.simple.SimpleJdbcCall;/** * Created by Adeola.Ojo */public class CoreDao {    SimpleJdbcCall findAll,findById,update,insert,delete;}
