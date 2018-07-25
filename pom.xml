@@ -124,7 +124,7 @@ http://www.w3.org/2001/XMLSchema-instance ">
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.4.2.RELEASE</version>
+            <version>1.5.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -150,7 +150,7 @@ http://www.w3.org/2001/XMLSchema-instance ">
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
-            <version>2.1.5.RELEASE</version>
+            <version>3.0.0.RELEASE</version>
         </dependency>
     </dependencies>
 </project>
