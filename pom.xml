@@ -84,7 +84,7 @@ http://www.w3.org/2001/XMLSchema-instance ">
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>1.4.2.RELEASE</version>
+            <version>1.5.3.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
