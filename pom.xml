@@ -64,7 +64,7 @@ http://www.w3.org/2001/XMLSchema-instance ">
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>1.4.2.RELEASE</version>
+            <version>1.4.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
@@ -94,7 +94,7 @@ http://www.w3.org/2001/XMLSchema-instance ">
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.8</version>
+            <version>1.1.11</version>
         </dependency>
         <dependency>
             <groupId>io.advantageous.qbit</groupId>
@@ -124,7 +124,7 @@ http://www.w3.org/2001/XMLSchema-instance ">
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.4.2.RELEASE</version>
+            <version>1.4.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
